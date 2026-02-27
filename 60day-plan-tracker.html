@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sujal's 60-Day Job Landing Plan</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --card: #16161f;
+    --border: #1e1e2e;
+    --accent: #e8ff47;
+    --accent2: #47c3ff;
+    --accent3: #ff6b6b;
+    --accent4: #a78bfa;
+    --text: #e8e8f0;
+    --muted: #6b6b80;
+    --done: #22c55e;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    padding: 2rem 1.5rem 4rem;
+  }
+
+  /* HEADER */
+  .header {
+    max-width: 1100px;
+    margin: 0 auto 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 2rem;
+  }
+
+  .header-left h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+
+  .header-left h1 span {
+    color: var(--accent);
+  }
+
+  .header-left p {
+    color: var(--muted);
+    margin-top: 0.5rem;
+    font-size: 0.95rem;
+  }
+
+  .progress-ring-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .progress-ring-wrap span {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.75rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .ring-container {
+    position: relative;
+    width: 90px;
+    height: 90px;
+  }
+
+  .ring-container svg {
+    transform: rotate(-90deg);
+  }
+
+  .ring-text {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ring-text .pct {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--accent);
+    line-height: 1;
+  }
+
+  .ring-text .lbl {
+    font-size: 0.6rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* LEGEND */
+  .legend {
+    max-width: 1100px;
+    margin: 0 auto 2rem;
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+
+  /* WEEK SECTIONS */
+  .week-section {
+    max-width: 1100px;
+    margin: 0 auto 2.5rem;
+  }
+
+  .week-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .week-badge {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.8rem;
+    border-radius: 100px;
+    border: 1px solid;
+  }
+
+  .week-badge.p1 { color: var(--accent3); border-color: var(--accent3); background: rgba(255,107,107,0.08); }
+  .week-badge.p2 { color: #fb923c; border-color: #fb923c; background: rgba(251,146,60,0.08); }
+  .week-badge.p3 { color: var(--accent); border-color: var(--accent); background: rgba(232,255,71,0.08); }
+  .week-badge.p4 { color: var(--done); border-color: var(--done); background: rgba(34,197,94,0.08); }
+
+  .week-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .week-subtitle {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-left: auto;
+  }
+
+  /* TASKS GRID */
+  .tasks-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 0.75rem;
+  }
+
+  .task-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1rem 1.1rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .task-card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    border-radius: 0 2px 2px 0;
+    transition: opacity 0.2s;
+  }
+
+  .task-card.cat-apply::before { background: var(--accent); }
+  .task-card.cat-story::before { background: var(--accent2); }
+  .task-card.cat-sim::before { background: var(--accent4); }
+  .task-card.cat-interview::before { background: var(--accent3); }
+  .task-card.cat-linkedin::before { background: #fb923c; }
+  .task-card.cat-daily::before { background: var(--done); }
+
+  .task-card:hover {
+    border-color: #2e2e3e;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  }
+
+  .task-card.completed {
+    opacity: 0.5;
+  }
+
+  .task-card.completed .task-title {
+    text-decoration: line-through;
+    color: var(--muted);
+  }
+
+  .checkbox {
+    width: 20px;
+    height: 20px;
+    min-width: 20px;
+    border-radius: 6px;
+    border: 1.5px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1px;
+    transition: all 0.2s;
+    background: var(--surface);
+  }
+
+  .task-card.completed .checkbox {
+    background: var(--done);
+    border-color: var(--done);
+  }
+
+  .checkbox svg {
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+
+  .task-card.completed .checkbox svg {
+    opacity: 1;
+  }
+
+  .task-content {
+    flex: 1;
+  }
+
+  .task-title {
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.4;
+    transition: color 0.2s;
+  }
+
+  .task-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.4rem;
+    flex-wrap: wrap;
+  }
+
+  .task-tag {
+    font-size: 0.68rem;
+    padding: 0.15rem 0.5rem;
+    border-radius: 100px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+  }
+
+  .tag-apply { background: rgba(232,255,71,0.1); color: var(--accent); }
+  .tag-story { background: rgba(71,195,255,0.1); color: var(--accent2); }
+  .tag-sim { background: rgba(167,139,250,0.1); color: var(--accent4); }
+  .tag-interview { background: rgba(255,107,107,0.1); color: var(--accent3); }
+  .tag-linkedin { background: rgba(251,146,60,0.1); color: #fb923c; }
+  .tag-daily { background: rgba(34,197,94,0.1); color: var(--done); }
+
+  .task-time {
+    font-size: 0.68rem;
+    color: var(--muted);
+  }
+
+  /* DAILY SCHEDULE */
+  .daily-schedule {
+    max-width: 1100px;
+    margin: 0 auto 2.5rem;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.5rem;
+  }
+
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1.2rem;
+  }
+
+  .schedule-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.7rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .schedule-row:last-child { border-bottom: none; }
+
+  .schedule-time {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.78rem;
+    color: var(--accent);
+    font-weight: 600;
+    min-width: 90px;
+  }
+
+  .schedule-bar {
+    flex: 1;
+    height: 28px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    padding: 0 0.75rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+  }
+
+  .schedule-duration {
+    font-size: 0.72rem;
+    color: var(--muted);
+    min-width: 50px;
+    text-align: right;
+  }
+
+  /* CHAT WORKSTREAMS */
+  .streams-grid {
+    max-width: 1100px;
+    margin: 0 auto 2.5rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1rem;
+  }
+
+  .stream-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.3rem;
+    transition: all 0.2s;
+  }
+
+  .stream-card:hover {
+    border-color: #2e2e3e;
+    transform: translateY(-2px);
+  }
+
+  .stream-header {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 1rem;
+  }
+
+  .stream-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 800;
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .stream-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+  }
+
+  .stream-status {
+    margin-left: auto;
+    font-size: 0.7rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 100px;
+    font-weight: 600;
+  }
+
+  .status-active { background: rgba(232,255,71,0.15); color: var(--accent); }
+  .status-next { background: rgba(251,146,60,0.15); color: #fb923c; }
+  .status-later { background: rgba(107,107,128,0.15); color: var(--muted); }
+
+  .stream-topics {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .stream-topics li {
+    font-size: 0.78rem;
+    color: var(--muted);
+    padding-left: 1rem;
+    position: relative;
+  }
+
+  .stream-topics li::before {
+    content: '›';
+    position: absolute;
+    left: 0;
+    color: var(--border);
+  }
+
+  .stream-week {
+    margin-top: 1rem;
+    padding-top: 0.8rem;
+    border-top: 1px solid var(--border);
+    font-size: 0.72rem;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  /* STATS BAR */
+  .stats-bar {
+    max-width: 1100px;
+    margin: 0 auto 2.5rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+  }
+
+  .stat-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.1rem;
+    text-align: center;
+  }
+
+  .stat-value {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 800;
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 0.72rem;
+    color: var(--muted);
+    margin-top: 0.3rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  /* NOTION EXPORT SECTION */
+  .notion-section {
+    max-width: 1100px;
+    margin: 0 auto 2.5rem;
+    background: linear-gradient(135deg, rgba(167,139,250,0.08), rgba(71,195,255,0.05));
+    border: 1px solid rgba(167,139,250,0.2);
+    border-radius: 16px;
+    padding: 1.5rem;
+  }
+
+  .notion-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 0.75rem;
+    margin-top: 1.2rem;
+  }
+
+  .notion-step {
+    background: rgba(0,0,0,0.2);
+    border-radius: 10px;
+    padding: 0.9rem;
+    display: flex;
+    gap: 0.7rem;
+    align-items: flex-start;
+  }
+
+  .notion-step-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 800;
+    width: 22px;
+    height: 22px;
+    min-width: 22px;
+    border-radius: 6px;
+    background: rgba(167,139,250,0.2);
+    color: var(--accent4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .notion-step p {
+    font-size: 0.78rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  .notion-step strong {
+    color: var(--text);
+    display: block;
+    margin-bottom: 0.2rem;
+    font-size: 0.82rem;
+  }
+
+  /* FOOTER NOTE */
+  .mantra {
+    max-width: 1100px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 2rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .mantra p {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--muted);
+    letter-spacing: 0.02em;
+  }
+
+  .mantra p span { color: var(--accent); }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    .stats-bar { grid-template-columns: repeat(2, 1fr); }
+    .week-subtitle { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-left">
+    <h1>Sujal's <span>60-Day</span><br>Job Landing Plan</h1>
+    <p>BA · BSA · PM · Fintech · Banking · Azure</p>
+  </div>
+  <div class="progress-ring-wrap">
+    <div class="ring-container">
+      <svg width="90" height="90" viewBox="0 0 90 90">
+        <circle cx="45" cy="45" r="36" fill="none" stroke="#1e1e2e" stroke-width="6"/>
+        <circle cx="45" cy="45" r="36" fill="none" stroke="#e8ff47" stroke-width="6"
+          stroke-dasharray="226" stroke-dashoffset="226" id="progressCircle"
+          stroke-linecap="round"/>
+      </svg>
+      <div class="ring-text">
+        <span class="pct" id="pctText">0%</span>
+        <span class="lbl">done</span>
+      </div>
+    </div>
+    <span>Overall Progress</span>
+  </div>
+</div>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stat-card">
+    <div class="stat-value" style="color: var(--accent)" id="statDone">0</div>
+    <div class="stat-label">Tasks Complete</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-value" style="color: var(--accent2)" id="statTotal">0</div>
+    <div class="stat-label">Total Tasks</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-value" style="color: var(--accent4)">6</div>
+    <div class="stat-label">Chat Workstreams</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-value" style="color: var(--accent3)">60</div>
+    <div class="stat-label">Days to Land Job</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-value" style="color: #fb923c">5–8</div>
+    <div class="stat-label">Daily Applications</div>
+  </div>
+</div>
+
+<!-- LEGEND -->
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:var(--accent)"></div>Applications</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--accent2)"></div>Story Bank</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--accent4)"></div>Simulation</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--accent3)"></div>Mock Interview</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#fb923c"></div>LinkedIn</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--done)"></div>Daily Habit</div>
+</div>
+
+<!-- WEEK 1–2 -->
+<div class="week-section">
+  <div class="week-header">
+    <div class="week-badge p1">🔴 Priority 1</div>
+    <div class="week-title">Week 1–2 — Foundation Sprint</div>
+    <div class="week-subtitle">Story Bank + BigLop Simulation + Apply Daily</div>
+  </div>
+  <div class="tasks-grid" id="week1"></div>
+</div>
+
+<!-- WEEK 3–4 -->
+<div class="week-section">
+  <div class="week-header">
+    <div class="week-badge p2">🟠 Priority 2</div>
+    <div class="week-title">Week 3–4 — Tools & Simulation Sprint</div>
+    <div class="week-subtitle">Quantum + Progressive + Hands-on Tools</div>
+  </div>
+  <div class="tasks-grid" id="week2"></div>
+</div>
+
+<!-- WEEK 5–6 -->
+<div class="week-section">
+  <div class="week-header">
+    <div class="week-badge p3">🟡 Priority 3</div>
+    <div class="week-title">Week 5–6 — Interview Confidence Sprint</div>
+    <div class="week-subtitle">Teleperformance + LinkedIn + Narrative Ownership</div>
+  </div>
+  <div class="tasks-grid" id="week3"></div>
+</div>
+
+<!-- WEEK 7–8 -->
+<div class="week-section">
+  <div class="week-header">
+    <div class="week-badge p4">🟢 Priority 4</div>
+    <div class="week-title">Week 7–8 — Acceleration Sprint</div>
+    <div class="week-subtitle">Mock Interviews Daily + Broaden Applications + Convert Offers</div>
+  </div>
+  <div class="tasks-grid" id="week4"></div>
+</div>
+
+<!-- DAILY SCHEDULE -->
+<div class="daily-schedule">
+  <div class="section-title">⏰ Daily Schedule — Non-Negotiable</div>
+  <div class="schedule-row">
+    <div class="schedule-time">8:00–8:45</div>
+    <div class="schedule-bar" style="background:rgba(232,255,71,0.08); color:var(--accent);">📨 Apply to 5–8 roles</div>
+    <div class="schedule-duration">45 min</div>
+  </div>
+  <div class="schedule-row">
+    <div class="schedule-time">9:00–9:45</div>
+    <div class="schedule-bar" style="background:rgba(167,139,250,0.08); color:var(--accent4);">🛠 Tool simulation OR story bank</div>
+    <div class="schedule-duration">45 min</div>
+  </div>
+  <div class="schedule-row">
+    <div class="schedule-time">10:00–10:45</div>
+    <div class="schedule-bar" style="background:rgba(251,146,60,0.08); color:#fb923c;">🔗 LinkedIn outreach (5 new/day)</div>
+    <div class="schedule-duration">45 min</div>
+  </div>
+  <div class="schedule-row">
+    <div class="schedule-time">2:00–3:00</div>
+    <div class="schedule-bar" style="background:rgba(255,107,107,0.08); color:var(--accent3);">🎯 Interview prep / mock session</div>
+    <div class="schedule-duration">60 min</div>
+  </div>
+  <div class="schedule-row">
+    <div class="schedule-time">3:00–3:30</div>
+    <div class="schedule-bar" style="background:rgba(71,195,255,0.08); color:var(--accent2);">▶️ YouTube (tactical only)</div>
+    <div class="schedule-duration">30 min MAX</div>
+  </div>
+</div>
+
+<!-- CHAT WORKSTREAMS -->
+<div class="week-section">
+  <div class="week-header">
+    <div class="week-title" style="font-family:'Syne',sans-serif; font-size:0.75rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.1em; font-weight:700;">6 Chat Workstreams</div>
+  </div>
+</div>
+<div class="streams-grid" id="streamsGrid"></div>
+
+<!-- NOTION SECTION -->
+<div class="notion-section">
+  <div class="section-title" style="color:var(--accent4)">📋 How to Use This in Notion</div>
+  <div class="notion-grid">
+    <div class="notion-step">
+      <div class="notion-step-num">1</div>
+      <p><strong>Create a New Page</strong>Title it "60-Day Job Landing Plan" — use the rocket emoji for flair.</p>
+    </div>
+    <div class="notion-step">
+      <div class="notion-step-num">2</div>
+      <p><strong>Add a Database (Table)</strong>Click + → Database → Table. Columns: Task, Week, Category, Status, Notes, Due Date.</p>
+    </div>
+    <div class="notion-step">
+      <div class="notion-step-num">3</div>
+      <p><strong>Status Options</strong>Set Status as Select with: Not Started / In Progress / Done / Skipped.</p>
+    </div>
+    <div class="notion-step">
+      <div class="notion-step-num">4</div>
+      <p><strong>Category Filter Tags</strong>Apply, Story, Simulation, Interview, LinkedIn, Daily — colour-coded like this tracker.</p>
+    </div>
+    <div class="notion-step">
+      <div class="notion-step-num">5</div>
+      <p><strong>Board View by Week</strong>Switch to Board → Group by Week. Drag tasks as you complete them.</p>
+    </div>
+    <div class="notion-step">
+      <div class="notion-step-num">6</div>
+      <p><strong>Daily Checklist</strong>Add a separate Daily Habits template page — 5 checkboxes, reset each morning.</p>
+    </div>
+    <div class="notion-step">
+      <div class="notion-step-num">7</div>
+      <p><strong>Linked Databases</strong>Create a separate Applications Tracker DB — link it to your main plan via relation.</p>
+    </div>
+    <div class="notion-step">
+      <div class="notion-step-num">8</div>
+      <p><strong>Progress Formula</strong>Add a formula column: countif(Status="Done") / count(all) × 100 for % complete.</p>
+    </div>
+  </div>
+</div>
+
+<!-- MANTRA -->
+<div class="mantra">
+  <p>You are not behind. <span>You are translating.</span> Apply first. Everything else is in service of that.</p>
+</div>
+
+<script>
+const tasks = {
+  week1: [
+    { title: "Rewrite LinkedIn headline + About section", cat: "linkedin", tag: "LinkedIn", time: "Day 1–2" },
+    { title: "Fix BigLop → 'Independent BA Consultant' framing", cat: "linkedin", tag: "LinkedIn", time: "Day 1" },
+    { title: "Write 5 STAR stories (telecom + Quantum)", cat: "story", tag: "Story Bank", time: "Day 1–3" },
+    { title: "Build Master Story Bank (10–12 stories total)", cat: "story", tag: "Story Bank", time: "Week 1" },
+    { title: "Write 'Tell Me About Yourself' — 90-sec version", cat: "story", tag: "Story Bank", time: "Day 2" },
+    { title: "Write 'Why BA/PM transition' answer", cat: "story", tag: "Story Bank", time: "Day 2" },
+    { title: "Build JIRA mock project + 10 User Stories", cat: "sim", tag: "Simulation", time: "Day 3–4" },
+    { title: "Set up Azure Logic App (basic workflow)", cat: "sim", tag: "Simulation", time: "Day 4–5" },
+    { title: "Apply to 5–8 roles — EVERY SINGLE DAY", cat: "daily", tag: "Daily", time: "Daily" },
+    { title: "LinkedIn: connect with 5 BAs/PMs per day", cat: "linkedin", tag: "LinkedIn", time: "Daily" },
+    { title: "Record yourself: 'Tell me about yourself'", cat: "interview", tag: "Interview", time: "Day 5" },
+    { title: "Request 3 LinkedIn recommendations (Quantum focus)", cat: "linkedin", tag: "LinkedIn", time: "Day 6–7" },
+    { title: "Chat 1: Story Bank session — stakeholder stories", cat: "story", tag: "Story Bank", time: "Week 1–2" },
+    { title: "Chat 2: BigLop simulation — KYC + Azure deep dive", cat: "sim", tag: "Simulation", time: "Week 1–2" },
+  ],
+  week2: [
+    { title: "Navigate Dynamics 365 — Finance & Inventory modules", cat: "sim", tag: "Simulation", time: "Week 3" },
+    { title: "Document As-Is vs To-Be process for Dynamics 365", cat: "sim", tag: "Simulation", time: "Week 3" },
+    { title: "Azure DevOps — create pipeline skeleton", cat: "sim", tag: "Simulation", time: "Week 3" },
+    { title: "Chat 3: Quantum simulation — e-commerce + ITAD", cat: "sim", tag: "Simulation", time: "Week 3–4" },
+    { title: "Chat 4: Progressive Telecom — translate BD to BA language", cat: "story", tag: "Story Bank", time: "Week 3–4" },
+    { title: "Write STAR stories: Budget, Deadline, Scope Creep", cat: "story", tag: "Story Bank", time: "Week 3" },
+    { title: "Write STAR stories: Vendor dispute, Influencing w/o authority", cat: "story", tag: "Story Bank", time: "Week 4" },
+    { title: "Build metrics cheat sheet — all quantified impacts", cat: "story", tag: "Story Bank", time: "Week 3" },
+    { title: "Draft 3 cover letter templates (BA / PM / BSA)", cat: "linkedin", tag: "LinkedIn", time: "Week 4" },
+    { title: "Apply to BA roles at telecom companies (domain edge)", cat: "apply", tag: "Apply", time: "Week 3–4" },
+    { title: "Continue 5–8 applications daily", cat: "daily", tag: "Daily", time: "Daily" },
+    { title: "Mock interview: record + review 1x this week", cat: "interview", tag: "Interview", time: "Week 4" },
+  ],
+  week3: [
+    { title: "Chat 5: Teleperformance — FCR, SOP, people management stories", cat: "story", tag: "Story Bank", time: "Week 5" },
+    { title: "Refine BigLop + Quantum stories based on real interviews", cat: "story", tag: "Story Bank", time: "Week 5" },
+    { title: "LinkedIn Featured section: create BA one-pager in Canva", cat: "linkedin", tag: "LinkedIn", time: "Week 5" },
+    { title: "Write LinkedIn article: '15 Years in Telecom → BA'", cat: "linkedin", tag: "LinkedIn", time: "Week 5–6" },
+    { title: "Nail 'Do you have direct BA experience?' answer", cat: "interview", tag: "Interview", time: "Week 5" },
+    { title: "Rehearse all 20 story bank answers aloud, timed", cat: "story", tag: "Story Bank", time: "Week 5–6" },
+    { title: "Start AZ-900 (Azure Fundamentals) prep", cat: "sim", tag: "Simulation", time: "Week 6" },
+    { title: "Prep 5 strong questions YOU ask interviewers", cat: "interview", tag: "Interview", time: "Week 5" },
+    { title: "Target contract/temp BA roles via staffing agencies", cat: "apply", tag: "Apply", time: "Week 6" },
+    { title: "Register with Randstad, Robert Half, Hays", cat: "apply", tag: "Apply", time: "Week 5" },
+    { title: "Continue 5–8 applications daily", cat: "daily", tag: "Daily", time: "Daily" },
+  ],
+  week4: [
+    { title: "Chat 6: Mock Interviews — recruiter screening (15 min sim)", cat: "interview", tag: "Interview", time: "Week 7" },
+    { title: "Chat 6: Mock Interviews — BA technical round", cat: "interview", tag: "Interview", time: "Week 7" },
+    { title: "Chat 6: Mock Interviews — behavioral STAR round", cat: "interview", tag: "Interview", time: "Week 7" },
+    { title: "Chat 6: Mock Interviews — panel simulation", cat: "interview", tag: "Interview", time: "Week 7–8" },
+    { title: "Chat 6: Salary negotiation roleplay", cat: "interview", tag: "Interview", time: "Week 8" },
+    { title: "Research BA salary range: Kitchener-GTA ($70–95K)", cat: "apply", tag: "Apply", time: "Week 7" },
+    { title: "3x mock interviews per week minimum", cat: "interview", tag: "Interview", time: "Daily" },
+    { title: "Broaden: fintech/banking BA roles via LinkedIn + Indeed", cat: "apply", tag: "Apply", time: "Week 7–8" },
+    { title: "Informational calls: 3 BAs/PMs per week", cat: "apply", tag: "Apply", time: "Week 7–8" },
+    { title: "Identify weak spots from mock sessions, fix immediately", cat: "interview", tag: "Interview", time: "Week 8" },
+    { title: "Continue 5–8 applications daily — never stop", cat: "daily", tag: "Daily", time: "Daily" },
+    { title: "Follow up on all pending applications (7–10 days old)", cat: "apply", tag: "Apply", time: "Week 7–8" },
+  ]
+};
+
+const streams = [
+  {
+    num: "1", title: "Story Bank & Storyteller", status: "active", statusLabel: "Start Now",
+    color: "#47c3ff", bg: "rgba(71,195,255,0.08)",
+    topics: ["Tell me about yourself (90s + 3min)", "Why BA/PM transition", "Stakeholder conflict & resolution", "Managing ambiguity", "Missed deadline handling", "Budget overrun", "Scope creep", "Influencing without authority", "Failure + lesson learned"],
+    week: "Week 1–2 (then ongoing)"
+  },
+  {
+    num: "2", title: "BigLop Simulation", status: "active", statusLabel: "Start Now",
+    color: "#e8ff47", bg: "rgba(232,255,71,0.08)",
+    topics: ["Azure cloud migration (12 apps)", "KYC automation via Logic Apps", "BPMN process mapping", "Power BI for C-suite", "ERP functional decomposition", "NFR definition (banking)", "Proxy Product Owner", "Change management & adoption"],
+    week: "Week 1–2"
+  },
+  {
+    num: "3", title: "Quantum Lifecycle Simulation", status: "next", statusLabel: "Week 3",
+    color: "#a78bfa", bg: "rgba(167,139,250,0.08)",
+    topics: ["E-commerce requirements", "Dynamics 365 gap analysis", "Power BI Customer Lifecycle KPIs", "ITAD end-to-end workflow", "Agile governance from scratch", "User Story writing"],
+    week: "Week 3–4"
+  },
+  {
+    num: "4", title: "Progressive Telecom Translation", status: "next", statusLabel: "Week 3",
+    color: "#fb923c", bg: "rgba(251,146,60,0.08)",
+    topics: ["Feasibility studies → Business cases", "Contract negotiation → SLA/requirements", "Market expansion → Stakeholder analysis", "JIRA/Confluence usage stories", "Risk assessment & compliance"],
+    week: "Week 3–4"
+  },
+  {
+    num: "5", title: "Teleperformance Translation", status: "later", statusLabel: "Week 5",
+    color: "#22c55e", bg: "rgba(34,197,94,0.08)",
+    topics: ["Managing 12–15 people → People mgmt", "15% FCR improvement → Process KPIs", "Knowledge base → SOP documentation", "CSAT 85%+ → Customer-centric delivery", "Escalation handling → Issue management"],
+    week: "Week 5"
+  },
+  {
+    num: "6", title: "Mock Interviews", status: "later", statusLabel: "Week 6–7",
+    color: "#ff6b6b", bg: "rgba(255,107,107,0.08)",
+    topics: ["Recruiter screening (15 min)", "BA technical round", "Behavioral STAR round", "Case study / scenario", "Panel simulation", "Salary negotiation roleplay", "Questions YOU ask"],
+    week: "Week 6–8 (after Chats 1–3 solid)"
+  }
+];
+
+function makeCard(task, id) {
+  const div = document.createElement('div');
+  div.className = `task-card cat-${task.cat}${task.done ? ' completed' : ''}`;
+  div.dataset.id = id;
+  div.innerHTML = `
+    <div class="checkbox">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+        <path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <div class="task-content">
+      <div class="task-title">${task.title}</div>
+      <div class="task-meta">
+        <span class="task-tag tag-${task.cat}">${task.tag}</span>
+        <span class="task-time">${task.time}</span>
+      </div>
+    </div>`;
+  div.addEventListener('click', () => toggleTask(div, id));
+  return div;
+}
+
+function makeStream(s) {
+  const div = document.createElement('div');
+  div.className = 'stream-card';
+  div.style.borderColor = s.status === 'active' ? s.color + '40' : '';
+  div.innerHTML = `
+    <div class="stream-header">
+      <div class="stream-num" style="background:${s.bg};color:${s.color}">C${s.num}</div>
+      <div class="stream-title" style="color:${s.color}">${s.title}</div>
+      <div class="stream-status status-${s.status}">${s.statusLabel}</div>
+    </div>
+    <ul class="stream-topics">
+      ${s.topics.map(t => `<li>${t}</li>`).join('')}
+    </ul>
+    <div class="stream-week">📅 ${s.week}</div>`;
+  return div;
+}
+
+// Load saved state
+const saved = JSON.parse(localStorage.getItem('sujal60day') || '{}');
+
+// All tasks flat list for counting
+let allTaskIds = [];
+
+['week1','week2','week3','week4'].forEach((week, wi) => {
+  const container = document.getElementById(week);
+  tasks[['week1','week2','week3','week4'][wi]].forEach((task, ti) => {
+    const id = `${week}-${ti}`;
+    allTaskIds.push(id);
+    if (saved[id]) task.done = true;
+    container.appendChild(makeCard(task, id));
+  });
+});
+
+streams.forEach(s => document.getElementById('streamsGrid').appendChild(makeStream(s)));
+
+function toggleTask(el, id) {
+  el.classList.toggle('completed');
+  saved[id] = el.classList.contains('completed');
+  localStorage.setItem('sujal60day', JSON.stringify(saved));
+  updateProgress();
+}
+
+function updateProgress() {
+  const total = allTaskIds.length;
+  const done = allTaskIds.filter(id => saved[id]).length;
+  const pct = Math.round((done / total) * 100);
+  document.getElementById('pctText').textContent = pct + '%';
+  document.getElementById('statDone').textContent = done;
+  document.getElementById('statTotal').textContent = total;
+  const offset = 226 - (226 * pct / 100);
+  document.getElementById('progressCircle').style.strokeDashoffset = offset;
+}
+
+updateProgress();
+</script>
+</body>
+</html>
